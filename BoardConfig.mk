@@ -61,13 +61,16 @@ $(foreach p, $(BOARD_PARTITION_LIST), $(eval TARGET_COPY_OUT_$(p) := $(call to-l
 
 # Retrofit dynamic partitions. Sizes come from the stock BEYOND2LTE_EUR_OPEN.pit
 # (4096-byte blocks): system 1459200, vendor 281600, product 158720 blocks.
-# Keep in sync with retrofit_precheck.sh in recovery/root/system/bin.
+# odm is not in the stock PIT, so it is a 4 MiB logical partition inside super.
+# Keep the physical sizes in sync with retrofit_precheck.sh in recovery/root/system/bin.
 ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS), true)
 ifeq ($(PRODUCT_RETROFIT_DYNAMIC_PARTITIONS), true)
 BOARD_SUPER_PARTITION_SIZE := 7780433920
 BOARD_SUPER_PARTITION_GROUPS := samsung_dynamic_partitions
-BOARD_SAMSUNG_DYNAMIC_PARTITIONS_PARTITION_LIST := system vendor product
-BOARD_SAMSUNG_DYNAMIC_PARTITIONS_SIZE := 7776239616
+BOARD_SAMSUNG_DYNAMIC_PARTITIONS_PARTITION_LIST := system vendor product odm
+# super minus 4 MiB metadata overhead minus 4 MiB for odm
+BOARD_SAMSUNG_DYNAMIC_PARTITIONS_SIZE := 7772045312
+BOARD_ODMIMAGE_PARTITION_SIZE := 4194304
 BOARD_SUPER_PARTITION_METADATA_DEVICE := system
 BOARD_SUPER_PARTITION_BLOCK_DEVICES := system vendor product
 BOARD_SUPER_PARTITION_SYSTEM_DEVICE_SIZE := 5976883200
