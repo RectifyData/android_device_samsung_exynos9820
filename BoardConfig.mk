@@ -60,24 +60,16 @@ BOARD_PARTITION_LIST := $(call to-upper, $(BOARD_SYSTEM_PARTITION_LIST))
 $(foreach p, $(BOARD_PARTITION_LIST), $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := ext4))
 $(foreach p, $(BOARD_PARTITION_LIST), $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
-# Retrofit dynamic partitions. Sizes come from the stock BEYOND2LTE_EUR_OPEN.pit
-# (4096-byte blocks): system 1459200, vendor 281600, product 158720 blocks.
-# odm is not in the stock PIT, so it is a 4 MiB logical partition inside super.
-# Keep the physical sizes in sync with retrofit_precheck.sh in recovery/root/system/bin.
+# Dynamic partitions, LineageOS layout. Super is carved from the physical system partition
+# (stock SYSTEM = 1459200 blocks x 4096 bytes in BEYOND2LTE_EUR_OPEN.pit). Matches the
+# LineageOS exynos9820-common tree. Metadata is written at install time from super_empty.img.
+# retrofit_precheck.sh in recovery/root/system/bin checks the system size before flashing.
 ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS), true)
-ifeq ($(PRODUCT_RETROFIT_DYNAMIC_PARTITIONS), true)
-BOARD_SUPER_PARTITION_SIZE := 7780433920
+BOARD_SUPER_PARTITION_SIZE := 5976883200
 BOARD_SUPER_PARTITION_GROUPS := samsung_dynamic_partitions
 BOARD_SAMSUNG_DYNAMIC_PARTITIONS_PARTITION_LIST := system vendor product odm
-# super minus 4 MiB metadata overhead minus 4 MiB for odm
-BOARD_SAMSUNG_DYNAMIC_PARTITIONS_SIZE := 7772045312
-BOARD_ODMIMAGE_PARTITION_SIZE := 4194304
+BOARD_SAMSUNG_DYNAMIC_PARTITIONS_SIZE := 5972688896
 BOARD_SUPER_PARTITION_METADATA_DEVICE := system
-BOARD_SUPER_PARTITION_BLOCK_DEVICES := system vendor product
-BOARD_SUPER_PARTITION_SYSTEM_DEVICE_SIZE := 5976883200
-BOARD_SUPER_PARTITION_VENDOR_DEVICE_SIZE := 1153433600
-BOARD_SUPER_PARTITION_PRODUCT_DEVICE_SIZE := 650117120
-endif
 endif
 
 # Android Verified Boot

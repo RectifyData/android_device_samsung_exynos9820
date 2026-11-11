@@ -13,9 +13,8 @@ PRODUCT_TARGET_VNDK_VERSION := 33
 # API
 PRODUCT_SHIPPING_API_LEVEL := 30
 
-# Retrofit dynamic partitions (super is built from the stock system/vendor/product partitions)
+# Dynamic partitions: super is carved from the physical system partition (LineageOS layout)
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
-PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
 
 # fastbootd
 PRODUCT_PACKAGES += \
