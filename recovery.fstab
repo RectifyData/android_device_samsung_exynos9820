@@ -3,5 +3,12 @@
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
+# Dynamic partitions (LineageOS layout): super is carved from the physical system partition.
+# Logical partitions are resolved from the super metadata written at install time.
+system     /system     ext4    ro,barrier=1          wait,logical,first_stage_mount
+vendor     /vendor     ext4    ro,barrier=1          wait,logical,first_stage_mount
+product    /product    ext4    ro,errors=panic       wait,logical,first_stage_mount
+odm        /odm        ext4    ro,errors=panic       wait,logical,first_stage_mount
+
 /dev/block/bootdevice/by-name/userdata     /data           f2fs        noatime,nosuid,nodev,discard,usrquota,grpquota,fsync_mode=nobarrier,reserve_root=32768,resgid=5678	wait,check,quota,reservedsize=128M
 /dev/block/bootdevice/by-name/misc         /misc           emmc        defaults                          defaults,first_stage_mount
