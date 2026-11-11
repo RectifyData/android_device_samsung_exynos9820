@@ -1,4 +1,3 @@
-#
 # Copyright (C) 2024 The Android Open Source Project
 # Copyright (C) 2024 The TWRP Open Source Project
 #
@@ -14,8 +13,9 @@ PRODUCT_TARGET_VNDK_VERSION := 33
 # API
 PRODUCT_SHIPPING_API_LEVEL := 30
 
-# No dynamic partitions
-PRODUCT_USE_DYNAMIC_PARTITIONS := false
+# Retrofit dynamic partitions (super is built from the stock system/vendor/product partitions)
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
 
 # fastbootd
 PRODUCT_PACKAGES += \
