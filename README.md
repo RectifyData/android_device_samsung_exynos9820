@@ -1,64 +1,51 @@
-# TWRP Device Tree for Samsung Galaxy devices with Exynos 9820/9825
+# TWRP Device Tree for Samsung Galaxy S10+
 
-## Device specifications
+This is an **unified device tree** for the Exynos 9820 Galaxy S10+ (`beyond2lte`) family. It uses a shared device configuration and exposes only the `beyond2lte` product target. The tree is not intended to support the other Exynos 9820/9825 devices (S10e, S10, S10 5G, or Note10 series).
 
-| Branding Name                           | Model Number          | Internal Codename         |
-| :-------------------------------------- | :-------------------- | :------------------------ |
-| Samsung Galaxy S10e (INTL/Korean)       | SM-G970F / SM-G970N   | beyond0lte / beyond0lteks |
-| Samsung Galaxy S10 (INTL/Korean)        | SM-G973F / SM-G973N   | beyond1lte / beyond1lteks |
-| Samsung Galaxy S10+ (INTL/Korean)       | SM-G975F / SM-G975N   | beyond2lte / beyond2lteks |
-| Samsung Galaxy S10 5G                   | SM-G977B / SM-G977N   | beyondx / beyondxks       |
-| Samsung Galaxy Note10 (INTL)            | SM-N970F              | d1                        |
-| Samsung Galaxy Note10 5G (Korean)       | SM-N971N              | d1xks                     |
-| Samsung Galaxy Note10+ (INTL)           | SM-N975F              | d2s                       |
-| Samsung Galaxy Note10+ 5G (INTL/Korean) | SM-N976B / SM-N976B   | d2x / d2xks               |
+## Supported device
 
-## Kernel source 
+| Branding Name | Model Number | Codename |
+| :--- | :--- | :--- |
+| Samsung Galaxy S10+ (Exynos) | SM-G975F / SM-G975N | beyond2lte / beyond2lteks |
 
-Available at [https://github.com/ExtremeXT/M62-backport/](https://github.com/ExtremeXT/M62-backport)
+## Unified tree layout
 
-* Note: The kernel has been compiled with the --recovery flag set to y.
+- `twrp_beyond2lte.mk` defines the sole product.
+- `beyond2lte/` contains the device-specific configuration.
+- Root-level files contain configuration shared by the product.
 
-## Bugs
+## Kernel source
 
-- /data decryption
+Available at [ExtremeXT/M62-backport](https://github.com/ExtremeXT/M62-backport).
 
-## How to build
+> The kernel must be compiled with the `--recovery` flag set to `y`.
 
-This device tree was tested and is fully compatible with [minimal-manifest-twrp](https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp).
+## Known issues
 
-1. Set up the build environment following the instructions [here](https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp/blob/twrp-12.1/README.md#getting-started)
+- `/data` decryption
 
-2. In the root folder of the fetched repo, clone the device tree:
+## Build
 
-```bash
-git clone https://github.com/ExtremeXT/android_device_samsung_exynos9820.git -b android-12.1 device/samsung/exynos9820
-```
+This tree was tested with [minimal-manifest-twrp](https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp).
 
-3. To build:
+1. Set up the build environment using the [TWRP getting-started instructions](https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp/blob/twrp-12.1/README.md#getting-started).
+2. Clone this branch into the device tree path:
 
-```bash
-. build/envsetup.sh
-lunch twrp_beyond2lte-eng
-mka recoveryimage
-```
+   ```bash
+   git clone https://github.com/RectifyData/android_device_samsung_exynos9820.git -b beyond2lte-only device/samsung/exynos9820
+   ```
+
+3. Build the recovery image:
+
+   ```bash
+   . build/envsetup.sh
+   lunch twrp_beyond2lte-eng
+   mka recoveryimage
+   ```
 
 ## Copyright
 
-```
-#
+```text
 # Copyright (C) 2024 The TWRP Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+# SPDX-License-Identifier: Apache-2.0
 ```
