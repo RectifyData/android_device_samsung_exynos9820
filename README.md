@@ -4,6 +4,8 @@
 
 Unified Exynos 9820 device tree. It exposes one product, `twrp_beyond2lte`, for the Galaxy S10+ (SM-G975F / SM-G975N, codename `beyond2lte`).
 
+Based on [ExtremeXT/android_device_samsung_exynos9820](https://github.com/ExtremeXT/android_device_samsung_exynos9820) (commit `1e81008`), with the other devices removed and the dynamic partition changes below.
+
 ## Layout
 
 - `twrp_beyond2lte.mk` defines the product. `AndroidProducts.mk` lists it.
@@ -23,12 +25,16 @@ The layout follows the LineageOS Exynos 9820 tree. Dynamic partitions are on, an
 
 `recovery/root/system/bin/retrofit_precheck.sh` is a read-only check. It reads the GPT and exits with an error if the system partition size does not match the build. Run it before any flash.
 
+## Recovery tools
+
+TWRP 12.1 uses toybox by default. Busybox is not set up yet. Enabling it needs `TW_FORCE_USE_BUSYBOX := true`, plus a busybox source at `external/busybox` provided by a local manifest. No confirmed android-12.1 busybox source exists yet.
+
 ## Known issues
 
 - The install-time writer for super metadata is not in this tree. LineageOS does this with `exynos9820.retrofit_dynamic_partitions`, which TWRP lacks. Without it, super has no metadata and logical partitions will not mount.
 - AVB for dynamic partitions is not configured yet.
 - Whether the device has a `@metadata` partition is unconfirmed. LineageOS's fstab expects one, and the stock PIT does not list one.
-- Busybox is pulled from the manifest, not this tree.
+- Busybox is not set up. The build uses toybox.
 - `/data` decryption is not working.
 
 ## Kernel source
